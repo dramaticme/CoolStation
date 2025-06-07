@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react"; // make sure useState is imported
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,6 +19,10 @@ import "./App.css";
 
 function Home({ userId, username, onLogout }) {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const [reloadPosts, setReloadPosts] = useState(false);
+  const handlePostSuccess = () => {
+    setReloadPosts(prev => !prev); // Toggle to trigger re-render
+  };
 
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
@@ -54,10 +58,12 @@ function Home({ userId, username, onLogout }) {
 
       <main className="main-content">
         <section className="form-section">
-          <AddFactForm userId={userId} username={username || "Anonymous"} />
+          <AddFactForm userId={userId} username={username || "Anonymous"} 
+          onPostSuccess={handlePostSuccess}
+          />
         </section>
         <section className="facts-section">
-          <AllFacts userId={userId} />
+          <AllFacts reload={reloadPosts} />
         </section>
       </main>
 

@@ -1,7 +1,7 @@
 // src/AddFactForm.js
 import { useState } from "react";
 
-function AddFactForm({ userId, username }) {
+function AddFactForm({ userId, username, onPostSuccess }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -21,16 +21,16 @@ function AddFactForm({ userId, username }) {
           title,
           content,
           username,
-          userId,
+          userId
         }),
       });
 
       const data = await res.json();
-
       if (res.ok) {
         alert(data.message);
         setTitle("");
         setContent("");
+        if (onPostSuccess) onPostSuccess(); // Trigger parent refresh
       } else {
         alert(data.message || "Failed to add post.");
       }
@@ -52,12 +52,14 @@ function AddFactForm({ userId, username }) {
         />
         <br /><br />
         <textarea
-          placeholder="Write your interesting fact here..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        />
-        <br /><br />
+  placeholder="Write your interesting fact here..."
+  value={content}
+  onChange={(e) => setContent(e.target.value)}
+  required
+  style={{ width: "1032px", height: "62px" }}
+/>
+<br /><br />
+
         <button type="submit">Post</button>
       </form>
     </div>

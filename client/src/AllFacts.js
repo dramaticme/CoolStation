@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import "./AllFacts.css";
 
-function AllFacts() {
-  const [posts, setPosts] = useState([]);
+function AllFacts({ userId, reload }) {
+  const [facts, setFacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/didyouknow/all")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch((err) => console.error("Error fetching posts:", err));
-  }, []);
+    const fetchFacts = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/didyouknow/all");
+        const data = await res.json();
+        setFacts(data.reverse()); // newest first
+      } catch (err) {
+        console.error("Failed to fetch facts:", err);
+      }
+    };
+    fetchFacts();
+  }, [reload]);
 
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.content.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFacts = facts.filter((fact) =>
+    fact.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    fact.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleFavorite = async (factId) => {
@@ -25,15 +31,19 @@ function AllFacts() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: "currentUserId", // TODO: Replace this with actual logged-in user ID
+          userId: userId || "", // use actual logged-in userId passed as prop
         }),
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to favorite fact");
+      }
+
       const updatedFact = await res.json();
 
-      // Update UI with the updated favorite count
-      setPosts((prevPosts) =>
-        prevPosts.map((fact) =>
+      // Update facts state with the updated fact data
+      setFacts((prevFacts) =>
+        prevFacts.map((fact) =>
           fact._id === updatedFact._id ? updatedFact : fact
         )
       );
@@ -60,11 +70,11 @@ function AllFacts() {
         }}
       />
 
-      {filteredPosts.length === 0 ? (
+      {filteredFacts.length === 0 ? (
         <p>No matching posts found.</p>
       ) : (
         <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-          {filteredPosts.map((fact) => (
+          {filteredFacts.map((fact) => (
             <div
               key={fact._id}
               className="fact-card"
