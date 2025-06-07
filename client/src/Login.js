@@ -1,51 +1,99 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
 
-    const data = await res.json();
-    if (res.ok) {
-      setMessage("✅ Login successful!");
-      onLogin(data.userId, formData.username);
-    } else {
-      setMessage(`❌ ${data.error}`);
+    try {
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      console.log("Login response:", data);
+
+      if (res.ok && data.userId) {
+        setMessage("✅ Login successful! Redirecting...");
+        if (onLogin) {
+          onLogin(data.userId, formData.username); // ✅ SEND TO APP
+        }
+        setTimeout(() => navigate("/"), 1500);
+      } else {
+        setMessage(`❌ ${data.error || "Invalid login"}`);
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setMessage("❌ Something went wrong. Try again.");
     }
   };
 
   return (
-    <div>
-      <h2>🔐 Login</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="login-container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+      <h2 style={{ textAlign: "center" }}>🔐 Login to CoolStation</h2>
+      <p style={{ textAlign: "center", marginBottom: 20 }}>
+        Welcome back! Please enter your credentials.
+      </p>
+
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
         <input
           type="text"
           placeholder="Username"
           required
+          autoFocus
           value={formData.username}
-          onChange={(e) =>
-            setFormData({ ...formData, username: e.target.value })
-          }
-        /><br/><br/>
+          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          style={{ padding: 10, marginBottom: 15, fontSize: 16 }}
+        />
         <input
           type="password"
           placeholder="Password"
           required
           value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-        /><br/><br/>
-        <button type="submit">Log In</button>
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          style={{ padding: 10, marginBottom: 20, fontSize: 16 }}
+        />
+        <button
+          type="submit"
+          style={{
+            padding: 12,
+            fontSize: 18,
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: 4,
+            cursor: "pointer",
+          }}
+        >
+          Log In
+        </button>
       </form>
-      <p>{message}</p>
+
+      {message && (
+        <p
+          style={{
+            marginTop: 15,
+            textAlign: "center",
+            color: message.startsWith("✅") ? "green" : "red",
+            fontWeight: "bold",
+          }}
+        >
+          {message}
+        </p>
+      )}
+
+      <p style={{ textAlign: "center", marginTop: 25 }}>
+        Don't have an account?{" "}
+        <Link to="/signup" style={{ color: "#007bff", textDecoration: "underline" }}>
+          Sign up for free
+        </Link>
+      </p>
     </div>
   );
 }

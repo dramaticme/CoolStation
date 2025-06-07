@@ -1,0 +1,38 @@
+.signup-page {
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+  background: #8300d4;
+  border-radius: 22px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-form input,
+.signup-form textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.signup-form button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #8300d4;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.signup-form button:hover {
+  background: #faf9f9;
+}

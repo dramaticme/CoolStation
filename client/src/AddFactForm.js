@@ -1,24 +1,42 @@
+// src/AddFactForm.js
 import { useState } from "react";
 
-function AddFactForm() {
+function AddFactForm({ userId, username }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const res = await fetch("http://localhost:5000/api/didyouknow/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, content, userId, username })  // <-- Add userId, username here
-  });
+    if (!title.trim() || !content.trim()) {
+      alert("Please fill out both title and content.");
+      return;
+    }
 
+    try {
+      const res = await fetch("http://localhost:5000/api/didyouknow/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          content,
+          username,
+          userId,
+        }),
+      });
 
-    const result = await response.json();
-    alert(result.message || "Error adding post");
+      const data = await res.json();
 
-    setTitle("");
-    setContent("");
+      if (res.ok) {
+        alert(data.message);
+        setTitle("");
+        setContent("");
+      } else {
+        alert(data.message || "Failed to add post.");
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
   };
 
   return (
@@ -31,13 +49,15 @@ function AddFactForm() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-        /><br /><br />
+        />
+        <br /><br />
         <textarea
           placeholder="Write your interesting fact here..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
-        /><br /><br />
+        />
+        <br /><br />
         <button type="submit">Post</button>
       </form>
     </div>

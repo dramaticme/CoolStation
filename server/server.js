@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("CoolStation backend is running!");
 });
 
-const didYouKnowRoutes = require("./routes/didYouKnowRoutes");
+const didYouKnowRoutes = require("./routes/DidYouKnowRoutes");
 app.use("/api/didyouknow", didYouKnowRoutes);
 
 const userRoutes = require("./routes/userRouters");

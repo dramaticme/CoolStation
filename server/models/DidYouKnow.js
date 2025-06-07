@@ -9,6 +9,18 @@ const didYouKnowSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
+  favorites: {
+    type: [String],
+    default: [],
+  },
   postedAt: {
     type: Date,
     default: Date.now,
