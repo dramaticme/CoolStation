@@ -15,24 +15,39 @@ import { ThemeContext } from "./ThemeContext";
 import "./App.css";
 
 // Home Page Component
-function Home({ userId, username }) {
+// Inside Home component
+
+function Home({ userId, username, onLogout }) {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
       <header className="app-header">
         <div className="logo-section">
-          <h1>👩‍💻 Welcome to CoolStation!</h1>
+          <h1>
+            👩‍💻 Welcome {userId ? username : "Guest"} to CoolStation!
+          </h1>
           <div className="nav-links">
-            <Link to="/login" className="nav-btn">🔐 Login</Link>
-            <Link to="/signup" className="nav-btn">📝 Signup</Link>
+            {userId ? (
+              <button onClick={onLogout} className="nav-btn">
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="nav-btn">
+                  🔐 Login
+                </Link>
+                <Link to="/signup" className="nav-btn">
+                  📝 Signup
+                </Link>
+              </>
+            )}
           </div>
         </div>
+
         <p className="tagline">Your ultimate CS resource hub ✨</p>
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="theme-toggle"
-        >
+
+        <button onClick={() => setDarkMode(!darkMode)} className="theme-toggle">
           {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
         </button>
       </header>
@@ -53,6 +68,7 @@ function Home({ userId, username }) {
   );
 }
 
+
 // Main App Component
 function App() {
   const [userId, setUserId] = useState(null);
@@ -64,6 +80,12 @@ function App() {
     setUsername(name);
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    setUserId(null);
+    setUsername("");
+  };
+
   return (
     <Router>
       <Routes>
@@ -71,7 +93,7 @@ function App() {
           path="/"
           element={
             userId ? (
-              <Home userId={userId} username={username} />
+              <Home userId={userId} username={username} onLogout={handleLogout} />
             ) : (
               <Navigate to="/login" replace />
             )
@@ -83,5 +105,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;
