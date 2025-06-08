@@ -5,17 +5,37 @@ const bcrypt = require("bcrypt");
 
 // Register
 router.post("/register", async (req, res) => {
-  const {
-    firstname,
-    middlename,
-    lastname,
-    dob,
-    city,
-    country,
-    bio,
-    username,
-    password,
-  } = req.body;
+  let {
+  firstname,
+  middlename,
+  lastname,
+  dob,
+  city,
+  country,
+  bio,
+  username,
+  password,
+} = req.body; // Use `let` if you want to reassign them
+
+firstname = firstname.trim();
+middlename = middlename?.trim();
+lastname = lastname.trim();
+dob = dob.trim();
+city = city.trim();
+country = country.trim();
+bio = bio.trim();
+
+if (/\s/.test(username)) {
+  return res.status(400).json({ error: "Username must not contain spaces" });
+}
+
+
+const existingUser = await User.findOne({ username });
+if (existingUser) {
+  return res.status(400).json({ error: "Username already exists" });
+}
+
+
 
   try {
     const existingUser = await User.findOne({ username });
