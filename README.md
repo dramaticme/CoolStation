@@ -20,7 +20,7 @@ Features:
 
 7. Timestamps: Each post is timestamped, giving context to contributions and enabling chronological navigation.
 
-Technology Stack
+⚙️Technology Stack
 
 Frontend <3
 
@@ -42,7 +42,8 @@ MongoDB – NoSQL database used for flexible, document-oriented data storage.
 
 Mongoose – Object Data Modeling (ODM) library for schema definition and interaction with MongoDB.
 
-Development Tools and Libraries
+🛠️Development Tools and Libraries
+
 bcrypt – Used for securely hashing passwords before storing them in the database.
 
 Nodemon – Facilitates efficient backend development by automatically restarting the server on code changes.
