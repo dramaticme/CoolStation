@@ -6,7 +6,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Features
+## Features 🤖
 
 1. User Authentication: Secure registration and login using hashed passwords, ensuring safe user credential management.
 
@@ -24,7 +24,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Technology Stack
+## Technology Stack 🥶
 
 ### Frontend <3
 
@@ -44,7 +44,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Development Tools and Libraries
+## Development Tools and Libraries 🐲
 
 - bcrypt – Used for securely hashing passwords before storing them in the database.
 - Nodemon – Facilitates efficient backend development by automatically restarting the server on code changes.
@@ -53,7 +53,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Learnings and Challenges
+## Learnings and Challenges 🐾🐧
 
 1. Through building CoolStation, I gained practical experience in the complete lifecycle of a full-stack application. Key areas of learning included:
 
