@@ -42,4 +42,31 @@ router.get("/all", async (req, res) => {
   }
 });
 
+// PATCH: Like a post
+// PATCH /api/didyouknow/:id/favorite
+router.post("/:id/favorite", async (req, res) => {
+  const { userId } = req.body;
+  const factId = req.params.id;
+
+  try {
+    const fact = await DidYouKnow.findById(factId);
+    if (!fact) return res.status(404).json({ message: "Fact not found" });
+
+    const alreadyLiked = fact.favorites.includes(userId);
+    if (alreadyLiked) {
+      // Remove like
+      fact.favorites = fact.favorites.filter(id => id !== userId);
+    } else {
+      // Add like
+      fact.favorites.push(userId);
+    }
+
+    await fact.save();
+    res.status(200).json(fact);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating favorite", error: err.message });
+  }
+});
+
+
 module.exports = router;

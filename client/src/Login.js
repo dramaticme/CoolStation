@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import api from "./api"; // ✅ optional but good for consistency
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -10,7 +11,7 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -22,7 +23,7 @@ function Login({ onLogin }) {
       if (res.ok && data.userId) {
         setMessage("✅ Login successful! Redirecting...");
         if (onLogin) {
-          onLogin(data.userId, formData.username); // ✅ SEND TO APP
+          onLogin(data.userId, formData.username);
         }
         setTimeout(() => navigate("/"), 1500);
       } else {
@@ -36,7 +37,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
-      <h2 style={{ textAlign: "center" }}>🔐 Login to CoolStation</h2>
+      <h2 style={{ textAlign: "center" }}>Login to CoolStation</h2>
       <p style={{ textAlign: "center", marginBottom: 20 }}>
         Welcome back! Please enter your credentials.
       </p>

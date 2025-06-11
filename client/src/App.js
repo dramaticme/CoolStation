@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useContext, useState } from "react"; // make sure useState is imported
+import React, { useContext, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,10 +13,9 @@ import Signup from "./Signup";
 import Login from "./Login";
 import { ThemeContext } from "./ThemeContext";
 import "./App.css";
+import api from "./api"; // ✅ Add this for consistency
 
 // Home Page Component
-// Inside Home component
-
 function Home({ userId, username, onLogout }) {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
   const [reloadPosts, setReloadPosts] = useState(false);
@@ -29,7 +28,7 @@ function Home({ userId, username, onLogout }) {
       <header className="app-header">
         <div className="logo-section">
           <h1>
-            👩‍💻 Welcome {userId ? username : "Guest"} to CoolStation!
+            🦉 Welcome {userId ? username : "Guest"} to CoolStation!
           </h1>
           <div className="nav-links">
             {userId ? (
@@ -39,17 +38,15 @@ function Home({ userId, username, onLogout }) {
             ) : (
               <>
                 <Link to="/login" className="nav-btn">
-                  🔐 Login
+                   Login
                 </Link>
                 <Link to="/signup" className="nav-btn">
-                  📝 Signup
+                   Signup
                 </Link>
               </>
             )}
           </div>
         </div>
-
-        <p className="tagline">Your ultimate CS resource hub ✨</p>
 
         <button onClick={() => setDarkMode(!darkMode)} className="theme-toggle">
           {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
@@ -63,7 +60,7 @@ function Home({ userId, username, onLogout }) {
           />
         </section>
         <section className="facts-section">
-          <AllFacts reload={reloadPosts} />
+          <AllFacts reload={reloadPosts} userId={userId} />
         </section>
       </main>
 
@@ -74,19 +71,16 @@ function Home({ userId, username, onLogout }) {
   );
 }
 
-
 // Main App Component
 function App() {
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState("");
 
-  // Handle login success
   const handleLogin = (id, name) => {
     setUserId(id);
     setUsername(name);
   };
 
-  // Handle logout
   const handleLogout = () => {
     setUserId(null);
     setUsername("");
@@ -111,6 +105,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;

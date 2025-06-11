@@ -1,5 +1,7 @@
+// src/AllFacts.js
 import { useEffect, useState } from "react";
 import "./AllFacts.css";
+import api from "./api"; // ✅ Import Axios instance
 
 function AllFacts({ userId, reload }) {
   const [facts, setFacts] = useState([]);
@@ -8,9 +10,8 @@ function AllFacts({ userId, reload }) {
   useEffect(() => {
     const fetchFacts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/didyouknow/all");
-        const data = await res.json();
-        setFacts(data.reverse()); // newest first
+        const res = await api.get("/api/didyouknow/all"); // ✅ Use API base URL
+        setFacts(res.data.reverse()); // newest first
       } catch (err) {
         console.error("Failed to fetch facts:", err);
       }
@@ -25,23 +26,12 @@ function AllFacts({ userId, reload }) {
 
   const handleFavorite = async (factId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/didyouknow/${factId}/favorite`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userId || "", // use actual logged-in userId passed as prop
-        }),
+      const res = await api.post(`/api/didyouknow/${factId}/favorite`, {
+        userId: userId || "",
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to favorite fact");
-      }
+      const updatedFact = res.data;
 
-      const updatedFact = await res.json();
-
-      // Update facts state with the updated fact data
       setFacts((prevFacts) =>
         prevFacts.map((fact) =>
           fact._id === updatedFact._id ? updatedFact : fact
@@ -54,7 +44,7 @@ function AllFacts({ userId, reload }) {
 
   return (
     <div>
-      <h2>🔍 Search “Did You Know?” Posts</h2>
+      <h2>Search Post</h2>
 
       <input
         type="text"
