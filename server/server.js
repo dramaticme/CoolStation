@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-
+const cors = require('cors');
 app.use(cors({
   origin: 'https://cool-station-asr2j9i4o-dramaticmes-projects.vercel.app',
   credentials: true,
