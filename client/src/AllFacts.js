@@ -54,7 +54,7 @@ function AllFacts({ userId, reload }) {
 
   return (
     <div>
-      <h2>🔍 Search “Did You Know?” Posts</h2>
+      <h2>Search Post</h2>
 
       <input
         type="text"

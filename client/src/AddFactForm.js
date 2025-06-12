@@ -41,7 +41,7 @@ function AddFactForm({ userId, username, onPostSuccess }) {
 
   return (
     <div>
-      <h2>➕ Add a “Did You Know?” Fact</h2>
+      <h2>Add Post</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

@@ -36,7 +36,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
-      <h2 style={{ textAlign: "center" }}>🔐 Login to CoolStation</h2>
+      <h2 style={{ textAlign: "center" }}>Login to CoolStation</h2>
       <p style={{ textAlign: "center", marginBottom: 20 }}>
         Welcome back! Please enter your credentials.
       </p>

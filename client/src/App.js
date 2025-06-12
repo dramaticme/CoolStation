@@ -29,7 +29,7 @@ function Home({ userId, username, onLogout }) {
       <header className="app-header">
         <div className="logo-section">
           <h1>
-            👩‍💻 Welcome {userId ? username : "Guest"} to CoolStation!
+            🦉 Welcome {userId ? username : "Guest"} to CoolStation!
           </h1>
           <div className="nav-links">
             {userId ? (
@@ -48,8 +48,6 @@ function Home({ userId, username, onLogout }) {
             )}
           </div>
         </div>
-
-        <p className="tagline">Your ultimate CS resource hub ✨</p>
 
         <button onClick={() => setDarkMode(!darkMode)} className="theme-toggle">
           {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
