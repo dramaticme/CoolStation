@@ -1,6 +1,5 @@
 // src/AddFactForm.js
 import { useState } from "react";
-import api from "./api"; // ✅ Import Axios instance
 
 function AddFactForm({ userId, username, onPostSuccess }) {
   const [title, setTitle] = useState("");
@@ -15,20 +14,25 @@ function AddFactForm({ userId, username, onPostSuccess }) {
     }
 
     try {
-      const res = await api.post("/api/didyouknow/add", {
-        title,
-        content,
-        username,
-        userId,
+      const res = await fetch("http://localhost:5000/api/didyouknow/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          content,
+          username,
+          userId
+        }),
       });
 
-      if (res.status === 200) {
-        alert(res.data.message);
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message);
         setTitle("");
         setContent("");
         if (onPostSuccess) onPostSuccess(); // Trigger parent refresh
       } else {
-        alert(res.data.message || "Failed to add post.");
+        alert(data.message || "Failed to add post.");
       }
     } catch (err) {
       alert("Error: " + err.message);
@@ -37,7 +41,7 @@ function AddFactForm({ userId, username, onPostSuccess }) {
 
   return (
     <div>
-      <h2>Add Post</h2>
+      <h2>➕ Add a “Did You Know?” Fact</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -48,13 +52,14 @@ function AddFactForm({ userId, username, onPostSuccess }) {
         />
         <br /><br />
         <textarea
-          placeholder="Write your interesting fact here..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          style={{ width: "1032px", height: "62px" }}
-        />
-        <br /><br />
+  placeholder="Write your interesting fact here..."
+  value={content}
+  onChange={(e) => setContent(e.target.value)}
+  required
+  style={{ width: "1032px", height: "62px" }}
+/>
+<br /><br />
+
         <button type="submit">Post</button>
       </form>
     </div>
