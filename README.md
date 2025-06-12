@@ -1,4 +1,4 @@
-# CoolStation – A CS Resource Hub 👩‍💻
+# CoolStation – A CS Resource Hub 🦉
 
 CoolStation is a modern, full-stack web application designed as a microblog platform for Computer Science enthusiasts. It enables users to share, explore, and engage with bite-sized "Did You Know?" facts in an intuitive and responsive interface. Whether you are a student, developer, or industry professional, CoolStation offers an engaging environment to contribute and learn from community-curated knowledge.
 
@@ -53,7 +53,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Learnings and Challenges 🐾🐧
+## Learnings and Challenges 🐧
 
 1. Through building CoolStation, I gained practical experience in the complete lifecycle of a full-stack application. Key areas of learning included:
 
@@ -69,7 +69,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## 🙋‍♀️ About the Author
+## 🥤🍀 About the Author
 
 **Sakshi Bhojraj Sonkusare**
 
