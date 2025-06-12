@@ -8,21 +8,30 @@ function Login({ onLogin }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    setMessage("");
+    e.preventDefault();
 
     try {
-      const res = await api.post("/api/users/login", formData);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      if (res.data?.userId) {
-        onLogin(res.data.userId, formData.username);
+      const data = await res.json();
+      console.log("Login response:", data);
+
+      if (res.ok && data.userId) {
         setMessage("✅ Login successful! Redirecting...");
+        if (onLogin) {
+          onLogin(data.userId, formData.username);
+        }
         setTimeout(() => navigate("/"), 1500);
       } else {
-        setMessage("❌ Invalid login credentials.");
+        setMessage(`❌ ${data.error || "Invalid login"}`);
       }
-    } catch (error) {
-      const errMsg = error.response?.data?.error || "Login failed.";
-      setMessage(`❌ ${errMsg}`);
+    } catch (err) {
+      console.error("Login error:", err);
+      setMessage("❌ Something went wrong. Try again.");
     }
   };
 

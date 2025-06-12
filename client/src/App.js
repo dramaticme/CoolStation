@@ -15,8 +15,6 @@ import { ThemeContext } from "./ThemeContext";
 import "./App.css";
 import api from "./api"; // ✅ Add this for consistency
 
-console.log("API base:", process.env.REACT_APP_API_URL); // Add this in App.js
-
 // Home Page Component
 function Home({ userId, username, onLogout }) {
   const { darkMode, setDarkMode } = useContext(ThemeContext);

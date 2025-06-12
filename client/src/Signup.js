@@ -26,13 +26,19 @@ function Signup() {
     e.preventDefault();
     setMessage("");
 
-    try {
-      const res = await api.post("/api/users/register", formData);
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
       setMessage("🎉 Registered successfully! Redirecting to login...");
       setTimeout(() => navigate("/login"), 2000);
-    } catch (error) {
-      const errMsg = error.response?.data?.error || "Registration failed.";
-      setMessage(`❌ ${errMsg}`);
+    } else {
+      setMessage(`❌ ${data.error}`);
     }
   };
 
