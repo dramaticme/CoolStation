@@ -5,7 +5,8 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors({
-  origin: "*", 
+  origin: "https://cool-station-qa1a.vercel.app", 
+  credentials: true
 }));
 app.use(express.json());
 
