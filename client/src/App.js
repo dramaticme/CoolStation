@@ -16,6 +16,12 @@ import "./App.css";
 
 // Home Page Component
 // Inside Home component
+import EditProfile from "./EditProfile";
+
+// inside <Routes>
+
+
+
 
 function Home({ userId, username, onLogout }) {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
@@ -33,19 +39,26 @@ function Home({ userId, username, onLogout }) {
           </h1>
           <div className="nav-links">
             {userId ? (
-              <button onClick={onLogout} className="nav-btn">
-                Logout
-              </button>
-            ) : (
-              <>
-                <Link to="/login" className="nav-btn">
-                  🔐 Login
-                </Link>
-                <Link to="/signup" className="nav-btn">
-                  📝 Signup
-                </Link>
-              </>
-            )}
+  <>
+    <Link to={`/edit-profile/${userId}`}>
+  <button className="nav-btn">Edit Profile</button>
+</Link>
+  
+    <button onClick={onLogout} className="nav-btn">
+      Logout
+    </button>
+  </>
+) : (
+  <>
+    <Link to="/login" className="nav-btn">
+      🔐 Login
+    </Link>
+    <Link to="/signup" className="nav-btn">
+      📝 Signup
+    </Link>
+  </>
+)}
+
           </div>
         </div>
 
@@ -105,6 +118,7 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/edit-profile/:id" element={<EditProfile />} />
       </Routes>
     </Router>
   );
