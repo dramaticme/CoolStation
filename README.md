@@ -6,7 +6,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Features 🤖
+## Features 👾
 
 1. User Authentication: Secure registration and login using hashed passwords, ensuring safe user credential management.
 
@@ -24,7 +24,7 @@ This project showcases robust full-stack development practices, including user a
 
 ---
 
-## Technology Stack 🥶
+## Technology Stack 👿
 
 ### Frontend <3
 
